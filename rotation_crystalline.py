@@ -35,6 +35,10 @@ def rotation_3d(position_array, phi, theta, psi):
     return np.dot(position_array, rotation_matrix_3d)
 
 
+def grain_boundary(position_array, direction_x, direction_y):
+    return 0
+
+
 if __name__ == "__main__":
     lattice_parameter = 3.597
     cell_basis = np.array([[1, 0, 0],
@@ -46,23 +50,24 @@ if __name__ == "__main__":
                           [0.5, 0, 0.5]]) * lattice_parameter
     system_size = 20
     box_size = np.ones(3) * lattice_parameter * system_size
-    atom_position = []
+    atom_position_initial = []
     for i in range(system_size):
         for j in range(system_size):
             for k in range(system_size):
                 base_position = np.array([i, j, k])
                 cart_position = np.inner(cell_basis.T, base_position)
-                for atom in atom_basis:
-                    atom_position.append(cart_position + atom)
-    fdata = open('/mnt/d/tempdata/ps.dat', 'w')
+                for atom in fcc_basis:
+                    atom_position_initial.append(cart_position + atom)
+    atom_position = atom_position_initial
+    fdata = open('temp_datatemp.dat', 'w')
     fdata.write('Crystalline Cu atoms\n\n')
-    fdata.write('{} atoms\n'.format((len(position))))
+    fdata.write('{} atoms\n'.format((len(atom_position))))
     fdata.write('{} atom types\n'.format(1))
     fdata.write('{} {} xlo xhi\n'.format(0.0, system_size * lattice_parameter))
     fdata.write('{} {} ylo yhi\n'.format(0.0, system_size * lattice_parameter))
     fdata.write('{} {} zlo zhi\n\n'.format(0.0, system_size * lattice_parameter))
     fdata.write('\n')
     fdata.write('Atoms\n\n')
-    for i, pos in enumerate(position):
+    for i, pos in enumerate(atom_position):
         fdata.write('{} 1 {:.6f} {:.6f} {:.6f}\n'.format(i + 1, *pos))
     fdata.close()
