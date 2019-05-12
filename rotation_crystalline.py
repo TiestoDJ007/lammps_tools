@@ -2,7 +2,7 @@
 # -*- coding=utf-8 -*-
 
 import numpy as np
-from numpy import sin, cos
+from numpy import sin, cos,sqrt
 
 
 def rotation_x(position_array, phi):
@@ -48,26 +48,33 @@ if __name__ == "__main__":
                           [0.5, 0.5, 0],
                           [0, 0.5, 0.5],
                           [0.5, 0, 0.5]]) * lattice_parameter
-    system_size = 20
-    box_size = np.ones(3) * lattice_parameter * system_size
-    atom_position_initial = []
+
+    rotation_basis = rotation_x(cell_basis,np.pi/4)
+    system_size = 2
+    system_box = cell_basis * system_size
+    inv_rotation_basis = np.linalg.inv(rotation_basis)
+    rotation_system_box = np.matmul(system_box,inv_rotation_basis)
+
+
+    position = []
     for i in range(system_size):
         for j in range(system_size):
             for k in range(system_size):
                 base_position = np.array([i, j, k])
                 cart_position = np.inner(cell_basis.T, base_position)
                 for atom in fcc_basis:
-                    atom_position_initial.append(cart_position + atom)
-    atom_position = atom_position_initial
-    fdata = open('temp_datatemp.dat', 'w')
+                    position.append(rotation_x(cart_position + atom,np.pi/4))
+
+
+    fdata = open('temp_datatemp_0.dat', 'w')
     fdata.write('Crystalline Cu atoms\n\n')
-    fdata.write('{} atoms\n'.format((len(atom_position))))
+    fdata.write('{} atoms\n'.format((len(position))))
     fdata.write('{} atom types\n'.format(1))
     fdata.write('{} {} xlo xhi\n'.format(0.0, system_size * lattice_parameter))
     fdata.write('{} {} ylo yhi\n'.format(0.0, system_size * lattice_parameter))
     fdata.write('{} {} zlo zhi\n\n'.format(0.0, system_size * lattice_parameter))
     fdata.write('\n')
     fdata.write('Atoms\n\n')
-    for i, pos in enumerate(atom_position):
+    for i, pos in enumerate(position):
         fdata.write('{} 1 {:.6f} {:.6f} {:.6f}\n'.format(i + 1, *pos))
     fdata.close()

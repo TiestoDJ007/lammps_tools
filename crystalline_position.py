@@ -7,7 +7,7 @@ lattice_parameter = 3.597
 cell_basis = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) * lattice_parameter
 atom_basis = np.array([[0, 0, 0], [0.5, 0.5, 0], [0, 0.5, 0.5],
                        [0.5, 0, 0.5]]) * lattice_parameter
-system_size = 20
+system_size = 6
 position = []
 for i in range(system_size):
     for j in range(system_size):
@@ -18,7 +18,7 @@ for i in range(system_size):
                 position.append(cart_position + atom)
 
 # 输出reading文件
-fdata = open('/mnt/d/tempdata/ps.dat', 'w')
+fdata = open('primate.dat', 'w')
 fdata.write('Crystalline Cu atoms\n\n')
 # 原子个数
 fdata.write('{} atoms\n'.format((len(position))))
