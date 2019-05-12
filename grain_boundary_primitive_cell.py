@@ -12,6 +12,7 @@ def rotation_z(position_array, psi):
     return np.dot(position_array, rotation_matrix_z)
 
 
+# 不用造轮子
 def isPointinPolygon(position_array, corner_list):
     return
 
@@ -37,6 +38,7 @@ if __name__ == "__main__":
                            [0.5, 0.5, 0],
                            [0, 0.5, 0.5],
                            [0.5, 0, 0.5]])
+    # 最初始的原胞，没有旋转
     position_initial = []
     for i in range((mins[0]), maxs[0], 1):
         for j in range(mins[1], maxs[1], 1):
@@ -46,6 +48,7 @@ if __name__ == "__main__":
                 for atom in atom_basis:
                     position_initial.append(cart_position + atom)
 
+    # 设定选择区域和选择函数（matplotlib.path.Path）
     points_2D = np.round(np.delete(points, -1, axis=1), decimals=1)
     pick = Path(points_2D)
     position = []
@@ -53,28 +56,31 @@ if __name__ == "__main__":
         cart_2D = np.delete(position_initial[pos_nb], -1, axis=0)
         if pick.contains_point(cart_2D) == True:
             position.append(position_initial[pos_nb])
+    # 添加一个原点坐标，path函数无法识别0点
     position.append(points[0])
     position = np.array(position)
 
-    inv_angle = arctan(direction_initial[1]/direction_initial[0])
+    # 反向旋转坐标，使之可以形成正方形
+    inv_angle = arctan(direction_initial[1] / direction_initial[0])
     for pos_nb_inv in range(len(position)):
         position[pos_nb_inv] = np.round(rotation_z(position[pos_nb_inv], inv_angle), decimals=9)
 
-    position_final =[]
+    # 删除边界上多余的原子
+    position_final = []
     x_lim = max(np.array(position).max(axis=0))
     y_lim = max(np.array(position).max(axis=1))
-    radius = 3
     for i_pos in range(len(position)):
-        if position[i_pos][0] < x_lim  and position[i_pos][1] < y_lim :
+        if position[i_pos][0] < x_lim and position[i_pos][1] < y_lim:
             position_final.append(position[i_pos])
     position_final = np.array(position_final)
 
+    # 写入文件
     fdata = open('grain_boundary_primitive_cell.dat', 'w')
     fdata.write('Crystalline Cu atoms\n\n')
     fdata.write('{} atoms\n'.format((len(position_final))))
     fdata.write('{} atom types\n'.format(1))
-    fdata.write('{} {} xlo xhi\n'.format(0.0, max(position[:,0]) * lattice_parameter))
-    fdata.write('{} {} ylo yhi\n'.format(0.0, max(position[:,1]) * lattice_parameter))
+    fdata.write('{} {} xlo xhi\n'.format(0.0, max(position[:, 0]) * lattice_parameter))
+    fdata.write('{} {} ylo yhi\n'.format(0.0, max(position[:, 1]) * lattice_parameter))
     fdata.write('{} {} zlo zhi\n\n'.format(0.0, 1 * lattice_parameter))
     fdata.write('\n')
     fdata.write('Atoms\n\n')
