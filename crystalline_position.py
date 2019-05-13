@@ -3,7 +3,7 @@
 
 import numpy as np
 
-lattice_parameter = 3.597
+lattice_parameter = 3.6150
 cell_basis = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) * lattice_parameter
 atom_basis = np.array([[0, 0, 0], [0.5, 0.5, 0], [0, 0.5, 0.5],
                        [0.5, 0, 0.5]]) * lattice_parameter

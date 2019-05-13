@@ -20,12 +20,12 @@ def isPointinPolygon(position_array, corner_list):
 if __name__ == "__main__":
     # 生成四个条边界
     lattice_parameter = 3.597
-    direction_initial = np.array([4, 1, 0])
+    direction_initial = np.array([5, 3, 0])
     points = [np.zeros(3)]
     for i in range(4):
         direction = rotation_z(direction_initial, -i * np.pi / 2)
-        points.append(points[i] + direction)
-    points = np.array(points, dtype=int)
+        points.append(np.round(points[i] + direction,decimals=2))
+    points = np.array(points)
     # 找到生成原胞的最小区域
     mins = np.array([min(points.min(axis=0)), min(points.min(axis=1))], dtype=int)
     maxs = np.array([max(points.max(axis=0)), max(points.max(axis=1))], dtype=int)
@@ -47,6 +47,7 @@ if __name__ == "__main__":
                 cart_position = np.inner(cell_basis.T, base_position)
                 for atom in atom_basis:
                     position_initial.append(cart_position + atom)
+    position_initial = np.array(position_initial)
 
     # 设定选择区域和选择函数（matplotlib.path.Path）
     points_2D = np.round(np.delete(points, -1, axis=1), decimals=1)
