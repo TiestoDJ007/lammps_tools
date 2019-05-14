@@ -20,7 +20,7 @@ def isPointinPolygon(position_array, corner_list):
 if __name__ == "__main__":
     # 生成四个条边界
     lattice_parameter = 3.597
-    direction_initial = np.array([4, 3, 0])
+    direction_initial = np.array([2, 11, 0])
     points = [np.zeros(3)]
     for i in range(4):
         direction = rotation_z(direction_initial, -i * np.pi / 2)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     position_final = np.array(position_final)
 
     # 写入文件
-    fdata = open('grain_boundary_({}{}{})_primitive_cell.dat'.format(direction_initial[0],
+    fdata = open('grain_boundary_({}_{}_{})_primitive_cell.dat'.format(direction_initial[0],
                                                                      direction_initial[1],
                                                                      direction_initial[2]), 'w')
     fdata.write('Crystalline Cu atoms\n\n')
