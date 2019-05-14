@@ -24,7 +24,7 @@ if __name__ == "__main__":
     points = [np.zeros(3)]
     for i in range(4):
         direction = rotation_z(direction_initial, -i * np.pi / 2)
-        points.append(np.round(points[i] + direction,decimals=2))
+        points.append(np.round(points[i] + direction, decimals=2))
     points = np.array(points)
     # 找到生成原胞的最小区域
     mins = np.array([min(points.min(axis=0)), min(points.min(axis=1))], dtype=int)
@@ -77,8 +77,8 @@ if __name__ == "__main__":
 
     # 写入文件
     fdata = open('grain_boundary_({}_{}_{})_primitive_cell.dat'.format(direction_initial[0],
-                                                                     direction_initial[1],
-                                                                     direction_initial[2]), 'w')
+                                                                       direction_initial[1],
+                                                                       direction_initial[2]), 'w')
     fdata.write('Crystalline Cu atoms\n\n')
     fdata.write('{} atoms\n'.format((len(position_final))))
     fdata.write('{} atom types\n'.format(1))

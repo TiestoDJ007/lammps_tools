@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3bdd37b4-7992-4b64-8684-e5d4f9b00669" name="wsl_Ubuntu" url="http://127.0.0.1">
+        <fileTransfer host="127.0.0.1" port="2222" rootFolder="/home/kakaka" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="2222" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
