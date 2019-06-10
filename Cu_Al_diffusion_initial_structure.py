@@ -18,7 +18,7 @@ if __name__ == "__main__":
     for i in range(-10,12,1):
         for j in range(-10,12,1):
             for k in range(20):
-                base_position = [i, j, k + 0.25]
+                base_position = [i, j, k]
                 cart_position = np.inner(cell_basis.T, base_position)
                 for atom in atom_basis:
                     Cu_position.append(cart_position + atom)
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     for i in range(-9, 11, 1):
         for j in range(-9, 11, 1):
             for k in range(Al_layer[2], 0, 1):
-                base_position = [i, j, k - 0.25]
+                base_position = [i, j, k]
                 cart_position = np.inner(cell_basis.T, base_position)
                 for atom in atom_basis:
                     Al_position.append(cart_position + atom)

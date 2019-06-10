@@ -14,8 +14,8 @@ atom_basis = np.array([[0, 0, 0],
 
 upper_layer = [16, 16, 20]
 upper_position = []
-for i in range(-8,8,1):
-    for j in range(-8,8,1):
+for i in range(-9,10,1):
+    for j in range(-9,10,1):
         for k in range(upper_layer[2]):
             base_position = [i, j, k + 0.5]
             cart_position = np.inner(cell_basis.T, base_position)
@@ -24,8 +24,8 @@ for i in range(-8,8,1):
 
 under_layer = [15, 15, -20]
 under_position = []
-for i in range(-8,8,1):
-    for j in range(-8,8,1):
+for i in range(-9,10,1):
+    for j in range(-9,10,1):
         for k in range(under_layer[2],0,1):
             base_position = [i, j, k - 0.5]
             cart_position = np.inner(cell_basis.T, base_position)
@@ -35,7 +35,7 @@ for i in range(-8,8,1):
 position = np.array(under_position+upper_position)
 
 # 输出reading文件
-fdata = open('/mnt/d/Tools/lammps_tools/Cu_HCP.dat', 'w')
+fdata = open('/mnt/d/Tools/lammps_tools/Cu_Bilayer.dat', 'w')
 fdata.write('Crystalline Cu atoms\n\n')
 # 原子个数
 fdata.write('{} atoms\n'.format((len(position))))
