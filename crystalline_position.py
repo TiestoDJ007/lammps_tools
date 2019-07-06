@@ -3,11 +3,11 @@
 
 import numpy as np
 
-lattice_parameter = 3.6150
+lattice_parameter = 4.05
 cell_basis = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) * lattice_parameter
 atom_basis = np.array([[0, 0, 0], [0.5, 0.5, 0], [0, 0.5, 0.5],
                        [0.5, 0, 0.5]]) * lattice_parameter
-system_size = [15,15,20]
+system_size = [20,20,20]
 position = []
 
 for i in range(system_size[0]):
@@ -19,7 +19,7 @@ for i in range(system_size[0]):
                 position.append(cart_position + atom)
 
 # 输出reading文件
-fdata = open('primate.dat', 'w')
+fdata = open('Cu_monocrystal.dat', 'w')
 fdata.write('Crystalline Cu atoms\n\n')
 # 原子个数
 fdata.write('{} atoms\n'.format((len(position))))
