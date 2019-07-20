@@ -70,6 +70,7 @@ if __name__ == "__main__":
             aspectmode='manual'
         )
     )
+
     fig = dict(data=plot_data,layout=layout)
     plotly.offline.plot(fig, filename='/mnt/d/voronoi.html')
 
