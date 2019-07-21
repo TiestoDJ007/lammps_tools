@@ -56,3 +56,11 @@ if __name__ == "__main__":
         # 重新构建无限区域
         ridge_couple = all_ridges[point_0]
         new_region = [vertice for vertice in vertice_couple if vertice >= 0]
+
+        for num_surface in range(len(ridge_couple)):
+            if all(point_value >=0 for point_value in ridge_couple[num_surface]):
+                continue
+            # 计算无限区域上的点
+            point_1 = ridge_couple[num_surface][0]
+            t=vor.points[point_1]-vor.points[point_0]
+
