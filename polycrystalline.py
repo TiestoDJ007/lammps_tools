@@ -27,14 +27,13 @@ if __name__ == "__main__":
     # 生成初始Voronoi图
     vor = Voronoi(point_cartesian)
     # 解决维诺图上为无线延展区域
-    new_region_multi = {}
+    new_region_multi = []
     new_vertice_multi = vor.vertices.tolist()
     # 取中心点
     center_point_multi = vor.points.mean(axis=0)
     # 建立所有ridge的地图,将每个区域的表面都与这个区域对应上。数据结构为字典，key为区域编号，value采用tuple.tuple中的第一个数字为与这个区域相连的区域，第二个数字为无限区域所对应的点，顺序可以组成一个封闭的凸平面。
     all_ridges = {}
-    for num_point in range(len(vor.point_region)):
-        point_region = vor.point_region[num_point]
+    for point_region in range(point_number):
         region_surface = []
         for num_ridge in range(len(vor.ridge_points)):
             # 判断点是否为无限
@@ -81,18 +80,25 @@ if __name__ == "__main__":
                             break
                 all_ridges.setdefault(point_region, region_surface)
     # 重建无限区域
-    for num_region in range(len(vor.point_region)):
-        region_number = vor.point_region[num_region]
+    for point_0 in range(point_number):
+        region_number = vor.point_region[point_0]
         vertice_couple = vor.regions[region_number]
         # 挑选出有限区域
         if all(vertice >= 0 for vertice in vertice_couple):
         # 判断是否为有限区域
-            new_region_multi.setdefault(region_number,tuple(vertice_couple))
+            new_region_multi.append(vertice_couple)
             continue
         new_region = [vertice for vertice in vertice_couple if vertice >=0]
-        polyhedron_surface = all_ridges[region_number]
+        polyhedron_surface = all_ridges[point_0]
         for num_polygon in range(len(polyhedron_surface)):
             polygon_points = polyhedron_surface[num_polygon]
-            if polygon_points[1] != -1:
+            point_1 = polygon_points[0]
+            #判断所在的接触面是否为有限的，如果是有限的，则跳过
+            if polygon_points[1] >= 0:
                 continue
+            #计算无限远点处所在的点
+            #应该先计算所在的线，再取一个截断点
+            #计算两点连线的方向
+            t = vor.points[point_1]-vor.points[point_0]
+            t /= np.linalg.norm(t)
 
