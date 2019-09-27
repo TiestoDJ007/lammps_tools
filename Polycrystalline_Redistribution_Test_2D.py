@@ -72,12 +72,12 @@ def Penalty_Function(area_distribution, sigma):
 
 
 def Random_Walk(point_array):
-    walk_size = np.divide(np.random.rand(1, 2) * 2 - 1, 10)
+    walk_size = np.random.rand(1, 2) * 2 - 1
     return np.add(point_array, walk_size)
 
-def Scale_Function(Chi_square):
-    return np.exp(-(np.divide(np.sqrt(Chi_square),0.3)))
 
+def Scale_Function(Chi_square):
+    return np.exp(-(np.divide(np.sqrt(Chi_square), 0.3)))
 
 
 points_number = 500
@@ -93,7 +93,6 @@ if __name__ == '__main__':
     regions_area = regions_area_function(regions_points)
     region_normalization = Normaliztion(regions_area)
     chi_square = Penalty_Function(region_normalization, sigma)
-
     points_len = points.shape[0]
     new_points = points
     new_points[0] = Random_Walk(new_points[0])
@@ -102,21 +101,22 @@ if __name__ == '__main__':
         new_region_points = regions_points_function(new_voro)
         new_region_area = regions_area_function(new_region_points)
         new_region_normalization = Normaliztion(new_region_area)
-        new_chi_squre = Penalty_Function(new_region_normalization,sigma)
-        if new_chi_squre < chi_limited:
+        new_chi_squre = Penalty_Function(new_region_normalization, sigma)
+        if (new_chi_squre < chi_limited)or(chi_square < chi_limited):
+            best_point = points
             break
-        elif (new_chi_squre <= chi_square)&(new_chi_squre>=chi_limited):
-            new_points[i_step] = Random_Walk(new_points[i_step])
-            continue
-        elif new_chi_squre>chi_square:
-            rho = np.random.rand()
-            if Scale_Function(new_chi_squre) < rho:
-                new_points[i_step] = Random_Walk(new_points[i_step])
-                continue
-            else:
-                continue
-        else:
-            continue
+        # elif (new_chi_squre <= chi_square)&(new_chi_squre>=chi_limited):
+        #    new_points[i_step] = Random_Walk(new_points[i_step])
+        #    continue
+        # elif new_chi_squre>chi_square:
+        #    rho = np.random.rand()
+        #    if Scale_Function(new_chi_squre) < rho:
+        #        new_points[i_step] = Random_Walk(new_points[i_step])
+        #        continue
+        #    else:
+        #        continue
+        # else:
+        #    continue
     # voronoi_plot_2d(voro)
     # plt.hist(region_area, bins=200, range=(0, 20))
     # plt.title("histogram")
